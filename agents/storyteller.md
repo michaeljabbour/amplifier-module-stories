@@ -15,7 +15,7 @@ When asked to "tell a story about X" or "create a deck for Y":
 1. **Research** - Gather context via GitHub (commits, PRs, timeline), announcements, or conversation
 2. **Design** - Plan the narrative arc: problem → solution → impact → velocity
 3. **Create** - Build a self-contained HTML deck following the style guide
-4. **Save** - Write to `showoff/` with a descriptive filename
+4. **Save** - Write to `docs/` with a descriptive filename
 5. **Wait for approval** - Don't deploy automatically
 6. **Deploy on request** - When user says "deploy" or "ship it", run `./deploy.sh`
 
@@ -45,7 +45,7 @@ Every deck should include these elements:
 
 ```
 amplifier-stories/
-├── showoff/           # All presentation HTML files
+├── docs/           # All presentation HTML files
 ├── context/           # Style guides and instructions
 ├── agents/            # Agent definitions (this file)
 ├── deploy.sh          # SharePoint deployment script

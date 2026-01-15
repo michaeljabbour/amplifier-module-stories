@@ -164,7 +164,7 @@ Before presenting to user:
 
 ## Deployment Workflow
 
-1. Create deck, save to `showoff/`
+1. Create deck, save to `docs/`
 2. Present to user for review
 3. Iterate based on feedback
 4. When approved: `./deploy.sh filename.html`

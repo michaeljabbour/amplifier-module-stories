@@ -25,7 +25,7 @@ Once the bundle is loaded, use the **storyteller** agent:
 The storyteller agent will:
 1. Research the feature (GitHub history, PRs, timeline)
 2. Create a polished HTML deck in "Useful Apple Keynote" style
-3. Save to `showoff/` directory
+3. Save to `docs/` directory
 4. Deploy to SharePoint when you approve
 
 ## Local Development
@@ -52,7 +52,7 @@ amplifier-stories/
 ├── context/
 │   ├── presentation-styles.md
 │   └── storyteller-instructions.md
-├── showoff/               # Generated decks
+├── docs/               # Generated decks
 ├── deploy.sh              # SharePoint deployment
 ├── .env.local             # Your SharePoint path (gitignored)
 └── FUTURE_TOPICS.md       # Ideas for future decks

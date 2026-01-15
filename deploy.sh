@@ -31,16 +31,16 @@ fi
 # Deploy specific file or all
 if [ -n "$1" ]; then
     # Deploy specific file
-    if [ ! -f "$SCRIPT_DIR/showoff/$1" ]; then
-        echo "Error: File not found: showoff/$1"
+    if [ ! -f "$SCRIPT_DIR/docs/$1" ]; then
+        echo "Error: File not found: docs/$1"
         exit 1
     fi
-    cp "$SCRIPT_DIR/showoff/$1" "$SHAREPOINT_DECKS_PATH"
+    cp "$SCRIPT_DIR/docs/$1" "$SHAREPOINT_DECKS_PATH"
     echo "✓ Deployed: $1"
 else
     # Deploy all decks
     count=0
-    for f in "$SCRIPT_DIR/showoff/"*.html; do
+    for f in "$SCRIPT_DIR/docs/"*.html; do
         if [ -f "$f" ]; then
             cp "$f" "$SHAREPOINT_DECKS_PATH"
             echo "✓ $(basename "$f")"
