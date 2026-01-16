@@ -5,14 +5,14 @@
 # Usage:
 #   ./deploy.sh              Deploy all to SharePoint
 #   ./deploy.sh file.html    Deploy specific file to SharePoint
-#   ./deploy.sh --local      Deploy all to ~/Downloads/
-#   ./deploy.sh --local file.html  Deploy specific file to ~/Downloads/
+#   ./deploy.sh --local      Deploy all to ~/Downloads/amplifier-stories/
+#   ./deploy.sh --local file.html  Deploy specific file to ~/Downloads/amplifier-stories/
 
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ENV_FILE="$SCRIPT_DIR/.env.local"
-LOCAL_EXPORT_PATH="$HOME/Downloads"
+LOCAL_EXPORT_PATH="$HOME/Downloads/amplifier-stories"
 USE_LOCAL=false
 TARGET_FILE=""
 
