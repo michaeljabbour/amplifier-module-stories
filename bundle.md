@@ -122,7 +122,7 @@ Then deploy with:
 
 ---
 
-@amplifier-stories:context/storyteller-instructions.md
+@amplifier-module-stories:context/storyteller-instructions.md
 
 ---
 

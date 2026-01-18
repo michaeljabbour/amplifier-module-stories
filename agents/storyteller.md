@@ -92,7 +92,7 @@ When creating a PowerPoint presentation (not HTML):
    Copy templates, rename to slide-01.html, slide-02.html, etc., modify content only
 
 2. **MANDATORY** - Read style specification and html2pptx guide:
-   - Template reference: `@amplifier-stories:context/powerpoint-template.md`
+   - Template reference: `@amplifier-module-stories:context/powerpoint-template.md`
    - html2pptx guide: `/Users/michaeljabbour/dev/anthropic-skills/skills/pptx/html2pptx.md` (625 lines, read ENTIRE file)
 
 3. **Create HTML slides** in `workspace/pptx/html-slides/`:
@@ -223,7 +223,7 @@ When creating PDFs or processing existing PDFs:
 
 ## Presentation Style: "Useful Apple Keynote"
 
-@amplifier-stories:context/presentation-styles.md
+@amplifier-module-stories:context/presentation-styles.md
 
 ## Deck Structure
 
@@ -342,4 +342,4 @@ Pick a new color for new decks.
 
 ---
 
-@amplifier-stories:context/storyteller-instructions.md
+@amplifier-module-stories:context/storyteller-instructions.md
