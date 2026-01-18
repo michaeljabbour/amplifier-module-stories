@@ -30,7 +30,7 @@ git tag -a v2.0.0-test -m "Test release"
 ```json
 {
   "tag_name": "v2.0.0",
-  "repo_path": "/Users/michaeljabbour/dev/amplifier-stories"
+  "repo_path": "."
 }
 ```
 
