@@ -138,26 +138,69 @@ brew install tesseract
 sudo apt-get install tesseract-ocr
 ```
 
+## Templates
+
+Professional templates for each format, all styled with the "Useful Apple Keynote" aesthetic (black backgrounds, blue accents, clean typography).
+
+### PowerPoint (7 slide templates)
+`workspace/pptx/templates/`:
+- **slide-title.html** - Centered opening slides
+- **slide-content.html** - Standard content with bullets
+- **slide-code.html** - Code examples with green syntax highlighting
+- **slide-comparison.html** - Before/After two-column layouts
+- **slide-metrics.html** - Big gradient numbers (3-column grid)
+- **slide-cards.html** - Feature cards in grid layout
+- **slide-section.html** - Section dividers with large numbers
+
+### Excel (3 Python templates)
+`workspace/xlsx/templates/`:
+- **dashboard-template.py** - Complete dashboard with metrics and charts
+- **metrics-template.py** - Metrics tracking with trend analysis
+- **comparison-template.py** - Before/after comparison tables
+
+### Word (3 JavaScript templates)
+`workspace/docx/templates/`:
+- **technical-doc-template.js** - Technical docs with table of contents
+- **proposal-template.js** - Feature proposals with executive summary
+- **case-study-template.js** - Narrative case studies
+
+### PDF (1 Python template)
+`workspace/pdf/templates/`:
+- **one-pager-template.py** - Executive one-page summaries
+
+**Each format includes a `templates/README.md` with usage examples and style specifications.**
+
 ## File Organization
 
 ```
 amplifier-stories/
 ├── docs/                     # Final deliverables (all formats)
 │   ├── *.html                # HTML presentations
-│   ├── *.pptx                # PowerPoint files
-│   ├── *.xlsx                # Excel workbooks
-│   ├── *.docx                # Word documents
-│   └── *.pdf                 # PDF files
-├── pptx-workspace/           # PowerPoint working directory
-│   ├── html-slides/          # HTML source files
-│   ├── assets/               # Images and charts
-│   ├── output/               # Final .pptx files
-│   └── thumbnails/           # Preview images
-├── workspace/                # General working directory
-│   ├── xlsx/output/          # Final Excel files
-│   ├── docx/output/          # Final Word files
-│   └── pdf/output/           # Final PDF files
-└── README.md                 # This file
+│   ├── *.pptx                # PowerPoint files (approved)
+│   ├── *.xlsx                # Excel workbooks (approved)
+│   ├── *.docx                # Word documents (approved)
+│   └── *.pdf                 # PDF files (approved)
+├── workspace/                # Working directory for all formats
+│   ├── pptx/
+│   │   ├── templates/        # 7 HTML slide templates (kept in git)
+│   │   ├── html-slides/      # Working HTML (gitignored)
+│   │   ├── assets/           # Generated images (gitignored)
+│   │   ├── output/           # Final .pptx (kept in git)
+│   │   └── thumbnails/       # Validation previews (gitignored)
+│   ├── xlsx/
+│   │   ├── templates/        # 3 Python templates (kept in git)
+│   │   └── output/           # Final .xlsx (kept in git)
+│   ├── docx/
+│   │   ├── templates/        # 3 JavaScript templates (kept in git)
+│   │   └── output/           # Final .docx (kept in git)
+│   └── pdf/
+│       ├── templates/        # 1 Python template (kept in git)
+│       └── output/           # Final .pdf (kept in git)
+├── context/                  # Style guides and instructions
+├── agents/                   # Agent definitions
+├── tools/                    # Development utilities
+├── deploy.sh                 # Deployment script
+└── .env.local                # Local config (gitignored)
 ```
 
 ## Deployment

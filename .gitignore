@@ -9,28 +9,31 @@ __pycache__/
 .mypy_cache/
 .pytest_cache/
 
-# PowerPoint workspace temporary files
-pptx-workspace/html-slides/*
-pptx-workspace/assets/*
-pptx-workspace/thumbnails/*
-pptx-workspace/*.js
-!pptx-workspace/README.md
+# Workspace temporary files (preserve templates and outputs)
+workspace/pptx/html-slides/*
+workspace/pptx/assets/*
+workspace/pptx/thumbnails/*
+workspace/pptx/*.js
+!workspace/pptx/templates/*.html
+!workspace/pptx/output/*.pptx
 
-# Keep final outputs in pptx-workspace/output/
-!pptx-workspace/output/*.pptx
-
-# Excel workspace temporary files
 workspace/xlsx/*.py
+!workspace/xlsx/templates/*.py
 !workspace/xlsx/output/*.xlsx
 
-# Word workspace temporary files
 workspace/docx/*.js
 workspace/docx/*.py
+!workspace/docx/templates/*.js
 !workspace/docx/output/*.docx
 
-# PDF workspace temporary files
 workspace/pdf/*.py
+!workspace/pdf/templates/*.py
 !workspace/pdf/output/*.pdf
+
+# Keep all template files and READMEs
+!workspace/*/templates/
+!workspace/*/templates/*
+!workspace/*/README.md
 
 # Analysis outputs from tools/
 *.csv

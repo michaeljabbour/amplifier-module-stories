@@ -80,150 +80,138 @@ You can tell stories in multiple formats, each suited to different audiences and
 
 When creating a PowerPoint presentation (not HTML):
 
-1. **MANDATORY** - Use the professional template:
-   - Read: `@amplifier-stories:context/powerpoint-template.md`
-   - This template defines the complete visual style based on Surface-Presentation.pptx
-   - Follow ALL specifications exactly: colors, fonts, layouts, spacing
+1. **Use slide templates** from `workspace/pptx/templates/`:
+   - **slide-title.html** - Opening/section covers (centered, large headline)
+   - **slide-content.html** - Standard content with bullets
+   - **slide-code.html** - Code examples (green text, preserved whitespace)
+   - **slide-comparison.html** - Before/After two-column layouts
+   - **slide-metrics.html** - Big gradient numbers in 3-column grid
+   - **slide-cards.html** - Feature grid with card backgrounds
+   - **slide-section.html** - Section dividers with large numbers
+   
+   Copy templates, rename to slide-01.html, slide-02.html, etc., modify content only
 
-2. **MANDATORY** - Read the complete html2pptx guide:
-   - `/Users/michaeljabbour/dev/anthropic-skills/skills/pptx/html2pptx.md` (625 lines)
-   - **NEVER set range limits** - read the ENTIRE file for syntax and critical rules
+2. **MANDATORY** - Read style specification and html2pptx guide:
+   - Template reference: `@amplifier-stories:context/powerpoint-template.md`
+   - html2pptx guide: `/Users/michaeljabbour/dev/anthropic-skills/skills/pptx/html2pptx.md` (625 lines, read ENTIRE file)
 
-2. **Create HTML slides** in `pptx-workspace/html-slides/`:
-   - Use proper dimensions: `width: 720pt; height: 405pt` (16:9)
-   - ALL text must be in `<p>`, `<h1>`-`<h6>`, `<ul>`, or `<ol>` tags
-   - NEVER use manual bullet symbols (•, -, *) - use `<ul>`/`<ol>` instead
-   - ONLY use web-safe fonts: Arial, Helvetica, Times New Roman, Georgia, Courier New, Verdana, Tahoma, Trebuchet MS, Impact
-   - Use `class="placeholder"` for chart/table areas
+3. **Create HTML slides** in `workspace/pptx/html-slides/`:
+   - Copy appropriate template from `workspace/pptx/templates/`
+   - Rename to sequential numbers: `slide-01.html`, `slide-02.html`
+   - Modify ONLY the content (headings, text, lists), preserve ALL CSS
+   - **CRITICAL:** Do NOT change styling - templates are pre-styled correctly
+   - **CRITICAL:** Use `white-space: pre` in code blocks to preserve formatting
 
-3. **Rasterize assets** to `pptx-workspace/assets/`:
-   - Convert gradients/icons to PNG using Sharp BEFORE referencing in HTML
+4. **Rasterize assets** to `workspace/pptx/assets/` (if needed):
+   - Convert gradients/icons to PNG using Sharp
    - Save charts as PNG images
-   - Reference: `<img src="../assets/gradient-bg.png">`
+   - Reference: `<img src="../assets/filename.png">`
 
-4. **Create conversion script** in `pptx-workspace/`:
+5. **Create conversion script** in `workspace/pptx/`:
    - Import html2pptx library
    - Process each HTML slide with `html2pptx()`
-   - Add charts/tables using PptxGenJS API
-   - Save to `pptx-workspace/output/presentation-name.pptx`
+   - Add charts/tables using PptxGenJS API to placeholders
+   - Save to `workspace/pptx/output/presentation-name.pptx`
 
-5. **Visual validation**:
-   - Generate thumbnails: `python /Users/michaeljabbour/dev/anthropic-skills/skills/pptx/scripts/thumbnail.py output.pptx pptx-workspace/thumbnails/preview --cols 4`
-   - Review for text cutoff, overlap, positioning, contrast issues
+6. **Visual validation**:
+   - Generate thumbnails: `python /Users/michaeljabbour/dev/anthropic-skills/skills/pptx/scripts/thumbnail.py workspace/pptx/output/filename.pptx workspace/pptx/thumbnails/preview --cols 4`
+   - Review for text cutoff, overlap, positioning issues
    - Fix and regenerate if needed
 
-6. **Present to user**:
-   - Show the presentation is ready at `pptx-workspace/output/filename.pptx`
-   - **Auto-open the file**: Run `open pptx-workspace/output/filename.pptx` to open in PowerPoint/Keynote
-   - Mention it can be copied to `docs/` if they want to deploy it
+7. **Present to user**:
+   - **Auto-open**: Run `open workspace/pptx/output/filename.pptx`
+   - Confirm it can be copied to `docs/` for deployment
 
-**Reference Documentation:**
-- Complete guide: `/Users/michaeljabbour/dev/anthropic-skills/skills/pptx/SKILL.md`
-- html2pptx workflow: `/Users/michaeljabbour/dev/anthropic-skills/skills/pptx/html2pptx.md`
-- OOXML editing: `/Users/michaeljabbour/dev/anthropic-skills/skills/pptx/ooxml.md` (for advanced editing)
+**Template Documentation:** `workspace/pptx/templates/README.md`
 
 ### 3. Excel (.xlsx) Creation Workflow
 
 When creating Excel spreadsheets for data-driven stories:
 
-1. **MANDATORY** - Read the complete xlsx guide:
+1. **Use Python templates** from `workspace/xlsx/templates/`:
+   - **dashboard-template.py** - Complete dashboard with header, metrics, charts
+   - **metrics-template.py** - Metrics tracking with trend analysis
+   - **comparison-template.py** - Before/after comparison tables
+   
+   Import and use the template functions for consistent styling
+
+2. **MANDATORY** - Read the complete xlsx guide:
    - `/Users/michaeljabbour/dev/anthropic-skills/skills/xlsx/SKILL.md` (289 lines)
-   - **NEVER set range limits** - read the ENTIRE file for formula rules and requirements
+   - **NEVER set range limits** - read the ENTIRE file for formula rules
 
-2. **Create workbook** in `workspace/xlsx/`:
-   - Use openpyxl for formulas and formatting
-   - Use pandas for data analysis and bulk operations
-   - Follow financial modeling standards (color codes, number formats)
-
-3. **Key requirements**:
-   - **Zero formula errors** - MANDATORY (#REF!, #DIV/0!, #VALUE!, etc.)
-   - Use Excel formulas, not hardcoded Python calculations
-   - Color coding: Blue = inputs, Black = formulas, Green = cross-sheet, Red = external
-   - Format zeros as "-" for cleaner appearance
-   - Document all assumptions with sources
+3. **Create workbook** in `workspace/xlsx/`:
+   - Import appropriate template: `from templates.dashboard_template import create_dashboard`
+   - Customize with your data
+   - Follow Amplifier color scheme: Blue accents, black text, green for positive metrics
+   - **CRITICAL:** Use Excel formulas, not hardcoded Python calculations
 
 4. **Recalculate formulas** (MANDATORY if using formulas):
    ```bash
-   python /Users/michaeljabbour/dev/anthropic-skills/skills/xlsx/recalc.py output.xlsx
+   python /Users/michaeljabbour/dev/anthropic-skills/skills/xlsx/recalc.py workspace/xlsx/output/filename.xlsx
    ```
-   - Verifies all formulas calculate correctly
-   - Returns JSON with error details if any issues found
-   - Fix errors and recalculate until zero errors
+   - Must return zero errors
+   - Fix any errors and recalculate
 
-5. **Save output** to `workspace/xlsx/output/`:
-   - Use descriptive names: `feature-metrics-dashboard.xlsx`
-   - **Auto-open the file**: Run `open workspace/xlsx/output/filename.xlsx` to open in Excel
-   - Copy to `docs/` if needed for deployment
+5. **Save and present**:
+   - Save to `workspace/xlsx/output/filename.xlsx`
+   - **Auto-open**: Run `open workspace/xlsx/output/filename.xlsx`
+   - Copy to `docs/` if deploying
 
-**Use cases:**
-- Performance metrics dashboards
-- ROI and cost analysis
-- Feature adoption tracking
-- Velocity comparisons
-- Data-driven impact stories
+**Template Documentation:** `workspace/xlsx/templates/README.md`
 
 ### 4. Word (.docx) Creation Workflow
 
 When creating Word documents for detailed stories:
 
-1. **MANDATORY** - Read the complete docx guide:
+1. **Use JavaScript templates** from `workspace/docx/templates/`:
+   - **technical-doc-template.js** - Complete technical guide with TOC, sections, code
+   - **proposal-template.js** - Feature proposal with executive summary, problem/solution
+   - **case-study-template.js** - Narrative case study with challenge/solution/results
+   
+   Import and customize the templates for consistent styling
+
+2. **MANDATORY** - Read the complete docx guide:
    - `/Users/michaeljabbour/dev/anthropic-skills/skills/docx/SKILL.md` (197 lines)
-   - **NEVER set range limits** - read the ENTIRE file for document creation and editing
+   - Read docx-js guide: `/Users/michaeljabbour/dev/anthropic-skills/skills/docx/docx-js.md`
+   - **NEVER set range limits** - read ENTIRE files
 
-2. **For new documents**:
-   - Read: `/Users/michaeljabbour/dev/anthropic-skills/skills/docx/docx-js.md`
-   - Use docx-js library (JavaScript/TypeScript)
-   - Create in `workspace/docx/`
-   - Export with proper formatting, headers, table of contents
+3. **Create document** in `workspace/docx/`:
+   - Import template: `const { createTechnicalDoc } = require('./templates/technical-doc-template');`
+   - Customize with your content
+   - Use Packer.toBuffer() to export
+   - Follow Amplifier style: Blue titles, clean hierarchy
 
-3. **For editing existing documents**:
-   - Read: `/Users/michaeljabbour/dev/anthropic-skills/skills/docx/ooxml.md`
-   - Use Document library (Python) for OOXML manipulation
-   - Supports tracked changes, comments, formatting preservation
-   - Use redlining workflow for professional document review
+4. **Save and present**:
+   - Save to `workspace/docx/output/filename.docx`
+   - **Auto-open**: Run `open workspace/docx/output/filename.docx`
+   - Copy to `docs/` if deploying
 
-4. **Save output** to `workspace/docx/output/`:
-   - Use descriptive names: `shadow-environments-technical-guide.docx`
-   - **Auto-open the file**: Run `open workspace/docx/output/filename.docx` to open in Word
-   - Copy to `docs/` if needed for deployment
-
-**Use cases:**
-- Technical documentation
-- Feature proposals and RFCs
-- Detailed case studies
-- Post-mortem reports
-- User guides and manuals
+**Template Documentation:** `workspace/docx/templates/README.md`
 
 ### 5. PDF Creation Workflow
 
 When creating PDFs or processing existing PDFs:
 
-1. **MANDATORY** - Read the complete pdf guide:
+1. **Use Python templates** from `workspace/pdf/templates/`:
+   - **one-pager-template.py** - Executive one-page summary with key points and metrics
+   
+   Import and use template functions for consistent styling
+
+2. **MANDATORY** - Read the complete pdf guide:
    - `/Users/michaeljabbour/dev/anthropic-skills/skills/pdf/SKILL.md` (294 lines)
-   - **NEVER set range limits** - read the ENTIRE file for PDF operations
+   - **NEVER set range limits** - read the ENTIRE file
 
-2. **Common operations**:
-   - **Extract text/tables**: Use pdfplumber or pdftotext
-   - **Create new PDFs**: Use reportlab for custom layouts
-   - **Merge/split**: Use pypdf or qpdf
-   - **Fill forms**: See `/Users/michaeljabbour/dev/anthropic-skills/skills/pdf/forms.md`
+3. **Create PDF** in `workspace/pdf/`:
+   - Import template: `from templates.one_pager_template import create_one_pager`
+   - Customize with your data (title, key points, metrics)
+   - Follow Amplifier style: Blue headlines, clean layout, professional metrics display
 
-3. **Work in** `workspace/pdf/`:
-   - Create/modify PDFs using Python libraries
-   - Extract data for analysis
-   - Merge multiple documents
+4. **Save and present**:
+   - Save to `workspace/pdf/output/filename.pdf`
+   - **Auto-open**: Run `open workspace/pdf/output/filename.pdf`
+   - Copy to `docs/` if deploying
 
-4. **Save output** to `workspace/pdf/output/`:
-   - Use descriptive names: `amplifier-feature-summary.pdf`
-   - **Auto-open the file**: Run `open workspace/pdf/output/filename.pdf` to open in Preview/PDF viewer
-   - Copy to `docs/` if needed for deployment
-
-**Use cases:**
-- Final deliverables (read-only format)
-- Merging multiple documents
-- Form-based data collection
-- Archival documentation
-- Print-ready materials
+**Template Documentation:** `workspace/pdf/templates/README.md`
 
 **Reference Documentation:**
 - xlsx: `/Users/michaeljabbour/dev/anthropic-skills/skills/xlsx/SKILL.md`
