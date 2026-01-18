@@ -125,6 +125,11 @@ Once the bundle is active, test in a new Amplifier session with these prompts:
 ```
 **Expected:** Blog post + social media snippets created and auto-opened (2.5-5 minutes)
 
+> **Note:** When running recipes via CLI, use the `@` prefix for bundle paths:
+> ```bash
+> amplifier tool invoke recipes operation=execute recipe_path="@amplifier-module-stories:recipes/blog-post-generator.yaml"
+> ```
+
 ### Test 6: Multi-Format Storytelling
 ```
 "Create a PowerPoint, Excel dashboard, and PDF one-pager about amplifier-module-stories capabilities"
@@ -414,7 +419,41 @@ The agent will:
 - Consistent fonts and spacing
 - Proper page breaks
 
+## Recipe Path Syntax
+
+When invoking recipes programmatically (via CLI or tool calls), use the `@` prefix for bundle paths:
+
+```bash
+# Correct - with @ prefix
+amplifier tool invoke recipes operation=execute \
+  recipe_path="@amplifier-module-stories:recipes/blog-post-generator.yaml"
+
+# Wrong - won't work (missing @ prefix)
+amplifier tool invoke recipes operation=execute \
+  recipe_path="amplifier-module-stories:recipes/blog-post-generator.yaml"
+```
+
+**Available recipes:**
+| Recipe | Path |
+|--------|------|
+| Session to Case Study | `@amplifier-module-stories:recipes/session-to-case-study.yaml` |
+| Git Tag to Changelog | `@amplifier-module-stories:recipes/git-tag-to-changelog.yaml` |
+| Weekly Digest | `@amplifier-module-stories:recipes/weekly-digest.yaml` |
+| Blog Post Generator | `@amplifier-module-stories:recipes/blog-post-generator.yaml` |
+
+**In conversational mode**, you can use natural language and the `@` prefix is handled automatically:
+```
+"Run the weekly-digest recipe"
+"Execute blog-post-generator for shadow environments"
+```
+
 ## Troubleshooting
+
+### Recipe Path Not Found
+If you get "Recipe file not found" errors:
+1. Ensure you're using the `@` prefix: `@amplifier-module-stories:recipes/...`
+2. Use absolute paths if bundle resolution fails: `$(pwd)/recipes/recipe-name.yaml`
+3. Verify the bundle is active: `amplifier bundle list`
 
 ### Skills Not Loading
 ```bash
