@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>M365 Enterprise Sandbox | Amplifier Stories</title>
+    <link rel="stylesheet" href="shared-variables.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-color: #000;
+            --text-color: #fff;
+            --text-secondary: rgba(255,255,255,0.7);
+            --text-tertiary: rgba(255,255,255,0.5);
+            --accent-blue: #0A84FF;
+            --accent-purple: #5E5CE6;
+            --accent-cyan: #50E6FF;
+            --accent-green: #00CC6A;
+            --accent-orange: #FF9F0A;
+            --accent-red: #FF453A;
+            --card-bg: rgba(255,255,255,0.05);
+            --card-border: rgba(255,255,255,0.1);
+            --code-green: #98D4A0;
+            
+            --font-headline: clamp(32px, 8vw, 72px);
+            --font-medium-headline: clamp(24px, 5vw, 48px);
+            --font-subhead: clamp(16px, 3vw, 28px);
+            --font-body: clamp(14px, 2vw, 18px);
+            --font-small: clamp(12px, 1.5vw, 14px);
+            --font-big-number: clamp(60px, 20vw, 180px);
+            
+            --padding-slide: clamp(24px, 6vw, 80px);
+            --gap-grid: clamp(16px, 3vw, 40px);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .slide {
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding: var(--padding-slide);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            scroll-snap-align: start;
+            position: relative;
+        }
+
+        .slide.center {
+            text-align: center;
+            align-items: center;
+        }
+
+        .section-label {
+            font-size: var(--font-small);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-blue);
+            margin-bottom: 16px;
+        }
+
+        .headline {
+            font-size: var(--font-headline);
+            font-weight: 700;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        .medium-headline {
+            font-size: var(--font-medium-headline);
+            font-weight: 600;
+            letter-spacing: -1px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .subhead {
+            font-size: var(--font-subhead);
+            color: var(--text-secondary);
+            max-width: 800px;
+            line-height: 1.5;
+        }
+
+        .big-text {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cyan-text {
+            color: var(--accent-cyan);
+        }
+
+        .green-text {
+            color: var(--accent-green);
+        }
+
+        .orange-text {
+            color: var(--accent-orange);
+        }
+
+        /* Grid layouts */
+        .thirds {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+            gap: var(--gap-grid);
+            margin-top: 32px;
+            width: 100%;
+        }
+
+        .halves {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+            gap: var(--gap-grid);
+            margin-top: 32px;
+            width: 100%;
+        }
+
+        .fourths {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+            gap: var(--gap-grid);
+            margin-top: 32px;
+            width: 100%;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: clamp(20px, 4vw, 32px);
+        }
+
+        .card-title {
+            font-size: clamp(16px, 2.5vw, 20px);
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin-bottom: 12px;
+        }
+
+        .card-text {
+            font-size: var(--font-body);
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .card-number {
+            font-size: clamp(36px, 8vw, 56px);
+            font-weight: 700;
+            color: var(--accent-cyan);
+            margin-bottom: 8px;
+        }
+
+        /* Tenet boxes */
+        .tenet {
+            background: rgba(0, 204, 106, 0.1);
+            border-left: 4px solid var(--accent-green);
+            padding: clamp(16px, 3vw, 24px);
+            border-radius: 0 12px 12px 0;
+        }
+
+        .tenet.orange {
+            background: rgba(255, 159, 10, 0.1);
+            border-left-color: var(--accent-orange);
+        }
+
+        .tenet.blue {
+            background: rgba(10, 132, 255, 0.1);
+            border-left-color: var(--accent-blue);
+        }
+
+        .tenet.red {
+            background: rgba(255, 69, 58, 0.1);
+            border-left-color: var(--accent-red);
+        }
+
+        .tenet-title {
+            font-size: clamp(14px, 2vw, 16px);
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 8px;
+        }
+
+        .tenet-text {
+            font-size: var(--font-small);
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Highlight boxes */
+        .highlight-box {
+            background: rgba(10, 132, 255, 0.15);
+            border: 1px solid var(--accent-blue);
+            border-radius: 12px;
+            padding: clamp(16px, 3vw, 24px);
+            margin-top: 32px;
+            font-size: var(--font-body);
+        }
+
+        .highlight-box.green {
+            background: rgba(0, 204, 106, 0.15);
+            border-color: var(--accent-green);
+        }
+
+        .highlight-box.orange {
+            background: rgba(255, 159, 10, 0.15);
+            border-color: var(--accent-orange);
+        }
+
+        /* Code blocks */
+        .code-block {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: clamp(16px, 3vw, 24px);
+            font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+            font-size: clamp(12px, 1.8vw, 15px);
+            line-height: 1.6;
+            color: var(--code-green);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-x: auto;
+            margin-top: 24px;
+        }
+
+        .code-comment {
+            color: var(--text-tertiary);
+        }
+
+        /* Flow diagram */
+        .flow {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            justify-content: center;
+            margin-top: 32px;
+        }
+
+        .flow-step {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: clamp(12px, 2vw, 20px) clamp(16px, 3vw, 28px);
+            text-align: center;
+            min-width: 140px;
+        }
+
+        .flow-step.active {
+            border-color: var(--accent-green);
+            background: rgba(0, 204, 106, 0.1);
+        }
+
+        .flow-arrow {
+            color: var(--text-tertiary);
+            font-size: 24px;
+        }
+
+        /* Stats */
+        .stat-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: clamp(24px, 5vw, 60px);
+            margin-top: 40px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: clamp(40px, 10vw, 72px);
+            font-weight: 700;
+            color: var(--accent-cyan);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: var(--font-small);
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        /* Architecture diagram */
+        .arch-layer {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: clamp(16px, 3vw, 24px);
+            margin-bottom: 16px;
+        }
+
+        .arch-label {
+            font-size: var(--font-small);
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .arch-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .arch-item {
+            background: rgba(10, 132, 255, 0.2);
+            border: 1px solid var(--accent-blue);
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: var(--font-small);
+            color: var(--accent-blue);
+        }
+
+        .arch-item.green {
+            background: rgba(0, 204, 106, 0.2);
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .arch-item.orange {
+            background: rgba(255, 159, 10, 0.2);
+            border-color: var(--accent-orange);
+            color: var(--accent-orange);
+        }
+
+        /* Feature list */
+        .feature-list {
+            list-style: none;
+            margin-top: 24px;
+        }
+
+        .feature-list li {
+            font-size: var(--font-body);
+            padding: 12px 0;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .check {
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        /* Navigation */
+        .nav-dots {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 100;
+        }
+
+        .nav-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--text-tertiary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: var(--accent-blue);
+            transform: scale(1.2);
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            font-size: 14px;
+            color: var(--text-tertiary);
+            font-family: 'SF Mono', monospace;
+            z-index: 100;
+        }
+
+        .small-text {
+            font-size: var(--font-small);
+            color: var(--text-tertiary);
+            margin-top: 40px;
+        }
+
+        /* Versus comparison */
+        .versus {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 24px;
+            align-items: start;
+            margin-top: 32px;
+        }
+
+        @media (max-width: 768px) {
+            .versus {
+                grid-template-columns: 1fr;
+            }
+            .versus-divider {
+                display: none;
+            }
+        }
+
+        .versus-side {
+            padding: 24px;
+        }
+
+        .versus-title {
+            font-size: clamp(20px, 4vw, 28px);
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .versus-divider {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-tertiary);
+            align-self: center;
+        }
+
+        /* Loop diagram */
+        .loop-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0;
+            margin-top: 40px;
+        }
+
+        .loop-step {
+            display: flex;
+            align-items: center;
+        }
+
+        .loop-box {
+            background: var(--card-bg);
+            border: 2px solid var(--accent-blue);
+            border-radius: 12px;
+            padding: 16px 24px;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .loop-box.green {
+            border-color: var(--accent-green);
+        }
+
+        .loop-box.orange {
+            border-color: var(--accent-orange);
+        }
+
+        .loop-arrow {
+            font-size: 28px;
+            color: var(--text-tertiary);
+            padding: 0 8px;
+        }
+
+        .loop-label {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            margin-top: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .loop-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .loop-arrow {
+                transform: rotate(90deg);
+                padding: 8px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Slide 1: Title -->
+    <div class="slide center" id="slide-1">
+        <div class="section-label">Product Vision</div>
+        <h1 class="headline">M365 Enterprise<br><span class="big-text">Sandbox</span></h1>
+        <p class="subhead">Safe vibe coding for the enterprise.<br>Build, test, validate, deploy.</p>
+        <p class="small-text">Built with Amplifier + Microsoft 365</p>
+    </div>
+
+    <!-- Slide 2: The Problem -->
+    <div class="slide" id="slide-2">
+        <div class="section-label">The Challenge</div>
+        <h2 class="headline">CIOs want vibe coding.<br>They fear the chaos.</h2>
+        <div class="thirds">
+            <div class="tenet red">
+                <div class="tenet-title">Uncontrolled Changes</div>
+                <div class="tenet-text">AI generates code that modifies production systems. No review. No rollback.</div>
+            </div>
+            <div class="tenet red">
+                <div class="tenet-title">Compliance Blind Spots</div>
+                <div class="tenet-text">Generated code may violate policies, expose PII, create security vulnerabilities.</div>
+            </div>
+            <div class="tenet red">
+                <div class="tenet-title">Shadow IT at Scale</div>
+                <div class="tenet-text">Every user becomes a developer. IT loses visibility and control.</div>
+            </div>
+        </div>
+        <div class="highlight-box orange">
+            The promise of AI-assisted development meets the reality of enterprise governance.
+        </div>
+    </div>
+
+    <!-- Slide 3: The Solution -->
+    <div class="slide center" id="slide-3">
+        <div class="section-label">The Solution</div>
+        <h2 class="headline"><span class="cyan-text">Sandbox tenants</span><br>for safe vibe coding.</h2>
+        <p class="subhead">Give users a safe place to build. Give IT the controls to validate. Deploy only what passes.</p>
+    </div>
+
+    <!-- Slide 4: How It Works - Overview -->
+    <div class="slide" id="slide-4">
+        <div class="section-label">Architecture</div>
+        <h2 class="medium-headline">Two repos. One complete solution.</h2>
+        
+        <div class="halves">
+            <div class="card">
+                <div class="card-title">amplifier-m365-platform</div>
+                <div class="card-text">
+                    The <strong>safe vibe coding engine</strong>. Enterprise safety guardrails, M365 integration, versioning, rollback, compliance scanning, approval workflows.
+                </div>
+                <div class="code-block"><span class="code-comment"># 12+ Amplifier modules</span>
+RBAC · Versioning · Rollback
+Compliance · Audit · Approval
+SharePoint · Teams · Dataverse
+Entra Identity · Cost Control</div>
+            </div>
+            <div class="card">
+                <div class="card-title">amplifier-bundle-m365-collab</div>
+                <div class="card-text">
+                    The <strong>tenant orchestration layer</strong>. Provisions test tenants, enables bidirectional communication, agent-to-agent collaboration via SharePoint.
+                </div>
+                <div class="code-block"><span class="code-comment"># Agent collaboration tool</span>
+post_task · claim_task · complete_task
+post_status · post_handoff
+get_pending_tasks · get_messages</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: The Full Loop -->
+    <div class="slide" id="slide-5">
+        <div class="section-label">The Workflow</div>
+        <h2 class="medium-headline">Build → Validate → Deploy</h2>
+        
+        <div class="loop-container">
+            <div class="loop-step">
+                <div class="loop-box">
+                    <strong>User</strong>
+                    <div class="loop-label">Vibe codes in sandbox</div>
+                </div>
+                <span class="loop-arrow">→</span>
+            </div>
+            <div class="loop-step">
+                <div class="loop-box green">
+                    <strong>Safety Hooks</strong>
+                    <div class="loop-label">Version, scan, validate</div>
+                </div>
+                <span class="loop-arrow">→</span>
+            </div>
+            <div class="loop-step">
+                <div class="loop-box orange">
+                    <strong>IT Review</strong>
+                    <div class="loop-label">Red team, approve</div>
+                </div>
+                <span class="loop-arrow">→</span>
+            </div>
+            <div class="loop-step">
+                <div class="loop-box">
+                    <strong>Deploy</strong>
+                    <div class="loop-label">To production</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="highlight-box green">
+            Every step is automated. Every action is logged. Nothing deploys without validation.
+        </div>
+    </div>
+
+    <!-- Slide 6: Safety Modules -->
+    <div class="slide" id="slide-6">
+        <div class="section-label">Safety First</div>
+        <h2 class="medium-headline">Enterprise-grade guardrails. Built in.</h2>
+        
+        <div class="fourths">
+            <div class="card">
+                <div class="card-title">Version Control</div>
+                <div class="card-text">Every artifact versioned. Git-like history. Point-in-time recovery.</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Rollback</div>
+                <div class="card-text">One-click revert. Automatic on failure. Complete state restoration.</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Compliance Scan</div>
+                <div class="card-text">PII detection. Secret scanning. Policy validation. OWASP checks.</div>
+            </div>
+            <div class="card">
+                <div class="card-title">RBAC</div>
+                <div class="card-text">Who can use which tools. Role hierarchy. Pattern matching.</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Tool Gateway</div>
+                <div class="card-text">Path restrictions. Parameter validation. Workspace sandboxing.</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Approval Workflow</div>
+                <div class="card-text">Human-in-loop for dangerous ops. Multi-level approvals.</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Audit Export</div>
+                <div class="card-text">Complete audit trail. Compliance reports. SIEM integration.</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Cost Control</div>
+                <div class="card-text">Per-user budgets. Token limits. Overage alerts.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: Bidirectional Communication -->
+    <div class="slide" id="slide-7">
+        <div class="section-label">The Secret Weapon</div>
+        <h2 class="headline">Tenants that<br><span class="cyan-text">talk back.</span></h2>
+        <p class="subhead">Users in the sandbox can communicate with Amplifier sessions in the main environment via SharePoint-based messaging.</p>
+        
+        <div class="halves">
+            <div class="tenet blue">
+                <div class="tenet-title">Task Handoff</div>
+                <div class="tenet-text">Sandbox user posts a task. Main Amplifier picks it up, processes, returns results. Async collaboration across environments.</div>
+            </div>
+            <div class="tenet">
+                <div class="tenet-title">Status Updates</div>
+                <div class="tenet-text">Real-time status from sandbox to IT dashboards. Progress tracking. Error notifications. Completion reports.</div>
+            </div>
+        </div>
+        
+        <div class="code-block"><span class="code-comment"># From sandbox user's session</span>
+m365_collab(operation="post_task", 
+    title="Review my auth module",
+    description="Check for security issues",
+    context={"module": "auth.py", "version": "1.2.3"})
+
+<span class="code-comment"># IT's Amplifier picks it up</span>
+tasks = m365_collab(operation="get_pending_tasks")
+m365_collab(operation="claim_task", task_id=tasks[0]["id"])</div>
+    </div>
+
+    <!-- Slide 8: Red Team Integration -->
+    <div class="slide" id="slide-8">
+        <div class="section-label">IT Empowerment</div>
+        <h2 class="medium-headline">Red team before deploy. Automatically.</h2>
+        
+        <div class="thirds">
+            <div class="card">
+                <div class="card-title">Automated Security Scan</div>
+                <div class="card-text">Every vibe-coded artifact runs through security validation. Injection attacks, privilege escalation, data leakage patterns.</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Policy Compliance</div>
+                <div class="card-text">Organization policies enforced. Data residency. Encryption requirements. Approved libraries only.</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Human Approval Gate</div>
+                <div class="card-text">Nothing deploys without IT sign-off. Approval workflows with context. Reject with feedback.</div>
+            </div>
+        </div>
+
+        <div class="highlight-box">
+            Red team tests included: prompt injection, jailbreak attempts, data exfiltration, privilege escalation, resource abuse.
+        </div>
+    </div>
+
+    <!-- Slide 9: M365 Integration -->
+    <div class="slide" id="slide-9">
+        <div class="section-label">Native Integration</div>
+        <h2 class="medium-headline">Built on M365. Not bolted on.</h2>
+        
+        <div class="arch-layer">
+            <div class="arch-label">Identity & Access</div>
+            <div class="arch-items">
+                <span class="arch-item">Entra ID (Azure AD)</span>
+                <span class="arch-item">OBO Token Flow</span>
+                <span class="arch-item">Group/Role Extraction</span>
+                <span class="arch-item">MFA Enforcement</span>
+            </div>
+        </div>
+        
+        <div class="arch-layer">
+            <div class="arch-label">Data & Storage</div>
+            <div class="arch-items">
+                <span class="arch-item green">SharePoint Documents</span>
+                <span class="arch-item green">Dataverse Tables</span>
+                <span class="arch-item green">OneDrive Files</span>
+                <span class="arch-item green">Azure Blob (Artifacts)</span>
+            </div>
+        </div>
+        
+        <div class="arch-layer">
+            <div class="arch-label">Communication</div>
+            <div class="arch-items">
+                <span class="arch-item orange">Teams Notifications</span>
+                <span class="arch-item orange">Adaptive Cards</span>
+                <span class="arch-item orange">Webhooks</span>
+                <span class="arch-item orange">Channel Messages</span>
+            </div>
+        </div>
+        
+        <div class="arch-layer">
+            <div class="arch-label">Governance</div>
+            <div class="arch-items">
+                <span class="arch-item">Azure App Config</span>
+                <span class="arch-item">Key Vault</span>
+                <span class="arch-item">Purview (Coming)</span>
+                <span class="arch-item">Defender (Coming)</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 10: Tenant Automation -->
+    <div class="slide" id="slide-10">
+        <div class="section-label">Automation</div>
+        <h2 class="medium-headline">Provision sandboxes automatically.</h2>
+        <p class="subhead">Amplifier can create, configure, and manage test tenants. Give each team their own safe space.</p>
+        
+        <ul class="feature-list">
+            <li><span class="check">✓</span> Automated tenant provisioning via Microsoft APIs</li>
+            <li><span class="check">✓</span> Pre-configured safety policies applied automatically</li>
+            <li><span class="check">✓</span> User assignment and role mapping from Entra groups</li>
+            <li><span class="check">✓</span> Webhook registration for bidirectional communication</li>
+            <li><span class="check">✓</span> Resource quotas and cost limits enforced</li>
+            <li><span class="check">✓</span> Automatic cleanup of stale sandboxes</li>
+        </ul>
+        
+        <div class="highlight-box green">
+            CIO provisions a sandbox tenant → Team starts vibe coding → IT validates → Deploy to production. All automated.
+        </div>
+    </div>
+
+    <!-- Slide 11: The Product Vision -->
+    <div class="slide center" id="slide-11">
+        <div class="section-label">The Vision</div>
+        <h2 class="headline">Every employee<br>builds safely.</h2>
+        <p class="subhead">The CIO's dream: democratized development with enterprise control. Users get the power of AI coding. IT gets the governance they need.</p>
+    </div>
+
+    <!-- Slide 12: What We've Built -->
+    <div class="slide" id="slide-12">
+        <div class="section-label">Status</div>
+        <h2 class="medium-headline">What we've built. Today.</h2>
+        
+        <div class="halves">
+            <div>
+                <h3 style="color: var(--accent-green); margin-bottom: 16px;">✓ Complete</h3>
+                <ul class="feature-list">
+                    <li><span class="check">✓</span> Vibe Coding Orchestrator</li>
+                    <li><span class="check">✓</span> Version Control Hook</li>
+                    <li><span class="check">✓</span> Rollback Tool</li>
+                    <li><span class="check">✓</span> RBAC Authorization</li>
+                    <li><span class="check">✓</span> Tool Permission Gateway</li>
+                    <li><span class="check">✓</span> Compliance Scanner</li>
+                    <li><span class="check">✓</span> Audit Export</li>
+                    <li><span class="check">✓</span> Cost Control</li>
+                    <li><span class="check">✓</span> Agent Collaboration Tool</li>
+                    <li><span class="check">✓</span> SharePoint Integration</li>
+                    <li><span class="check">✓</span> Teams Notifications</li>
+                    <li><span class="check">✓</span> Entra Identity Hook</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--accent-orange); margin-bottom: 16px;">→ In Progress</h3>
+                <ul class="feature-list">
+                    <li><span style="color: var(--accent-orange);">→</span> Dataverse Provider</li>
+                    <li><span style="color: var(--accent-orange);">→</span> Sandbox Execution</li>
+                    <li><span style="color: var(--accent-orange);">→</span> Schema Validation</li>
+                    <li><span style="color: var(--accent-orange);">→</span> Approval Workflow Hook</li>
+                </ul>
+                <h3 style="color: var(--text-tertiary); margin: 24px 0 16px;">○ Planned</h3>
+                <ul class="feature-list">
+                    <li><span style="color: var(--text-tertiary);">○</span> Purview Integration</li>
+                    <li><span style="color: var(--text-tertiary);">○</span> Defender Integration</li>
+                    <li><span style="color: var(--text-tertiary);">○</span> Power Platform Hooks</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 13: Why This Matters -->
+    <div class="slide" id="slide-13">
+        <div class="section-label">Strategic Value</div>
+        <h2 class="medium-headline">Why this matters for Microsoft</h2>
+        
+        <div class="thirds">
+            <div class="tenet">
+                <div class="tenet-title">M365 Stickiness</div>
+                <div class="tenet-text">Deep integration with M365 services creates switching costs. Vibe coding becomes an M365 feature, not an external tool.</div>
+            </div>
+            <div class="tenet">
+                <div class="tenet-title">Azure Consumption</div>
+                <div class="tenet-text">Every sandbox tenant drives Azure OpenAI usage. Every artifact stored drives Azure storage. Every API call drives Graph usage.</div>
+            </div>
+            <div class="tenet">
+                <div class="tenet-title">Enterprise Lock-In</div>
+                <div class="tenet-text">Companies that build their AI development workflow on M365 don't switch. The governance, the audit trails, the integrations—all M365.</div>
+            </div>
+        </div>
+
+        <div class="highlight-box">
+            This isn't just a tool. It's a platform play that makes M365 the default choice for enterprise AI development.
+        </div>
+    </div>
+
+    <!-- Slide 14: Call to Action -->
+    <div class="slide center" id="slide-14">
+        <div class="section-label">Next Steps</div>
+        <h2 class="headline">The platform is ready.<br><span class="big-text">Let's deploy it.</span></h2>
+        
+        <div class="stat-grid">
+            <div class="stat">
+                <div class="stat-number">12+</div>
+                <div class="stat-label">Modules Built</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Public APIs</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Repos Ready</div>
+            </div>
+        </div>
+        
+        <p class="small-text" style="margin-top: 60px;">
+            github.com/ramparte/amplifier-m365-platform<br>
+            github.com/ramparte/amplifier-bundle-m365-collab
+        </p>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-dots" id="navDots"></div>
+    <div class="slide-counter" id="slideCounter">1 / 14</div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const navDotsContainer = document.getElementById('navDots');
+        const slideCounter = document.getElementById('slideCounter');
+        const totalSlides = slides.length;
+
+        // Create nav dots
+        slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.className = 'nav-dot' + (index === 0 ? ' active' : '');
+            dot.addEventListener('click', () => {
+                slides[index].scrollIntoView({ behavior: 'smooth' });
+            });
+            navDotsContainer.appendChild(dot);
+        });
+
+        const navDots = document.querySelectorAll('.nav-dot');
+
+        // Update active dot on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const index = Array.from(slides).indexOf(entry.target);
+                    navDots.forEach((dot, i) => {
+                        dot.classList.toggle('active', i === index);
+                    });
+                    slideCounter.textContent = `${index + 1} / ${totalSlides}`;
+                }
+            });
+        }, { threshold: 0.5 });
+
+        slides.forEach(slide => observer.observe(slide));
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const currentIndex = Array.from(navDots).findIndex(dot => dot.classList.contains('active'));
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                if (currentIndex < totalSlides - 1) {
+                    slides[currentIndex + 1].scrollIntoView({ behavior: 'smooth' });
+                }
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                if (currentIndex > 0) {
+                    slides[currentIndex - 1].scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

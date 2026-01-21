@@ -1,8 +1,45 @@
 # Amplifier Stories - Development Tools
 
-Utility scripts for analyzing Amplifier usage patterns and creating data-driven insights.
+Utility scripts for creating presentations, analyzing Amplifier usage, and generating data-driven insights.
 
 ## Available Tools
+
+### html2pptx.py
+
+Converts Amplifier Stories HTML decks to PowerPoint presentations.
+
+**Purpose:** Generate native PowerPoint files from HTML story decks, enabling easy sharing and editing in corporate environments.
+
+**Usage:**
+```bash
+# Using uv (recommended)
+uv run --with python-pptx,beautifulsoup4,lxml python tools/html2pptx.py <input.html> [output.pptx]
+
+# Examples
+uv run --with python-pptx,beautifulsoup4,lxml python tools/html2pptx.py docs/my-deck.html
+uv run --with python-pptx,beautifulsoup4,lxml python tools/html2pptx.py docs/my-deck.html output/presentation.pptx
+```
+
+**Supported Elements:**
+- Slide structure (`.slide` divs)
+- Section labels (`.section-label`)
+- Headlines and subheads (`.headline`, `.subhead`, `.medium-headline`)
+- Cards with titles and text (`.card`, `.card-title`, `.card-text`)
+- Tenet boxes with accent colors (`.tenet`, `.tenet.green`, `.tenet.orange`)
+- Feature lists with check/x marks (`.feature-list`)
+- Data tables (`.data-table`)
+- Highlight/callout boxes (`.highlight-box`)
+- Big numbers and stats (`.stat-grid`, `.card-number`)
+- Versus comparisons (`.versus`)
+- Quotes (`.quote`)
+
+**Output:**
+- 16:9 widescreen format (10" × 5.625")
+- Black backgrounds with Amplifier Stories color palette
+- Editable text in PowerPoint
+- Matching visual hierarchy and styling
+
+---
 
 ### analyze_sessions.py
 
