@@ -40,16 +40,46 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
     background: #000;
     color: #fff;
+    margin: 0;
     overflow: hidden;
     overscroll-behavior: none;
 }
 
+/* --- Slide layout and transitions ---
+   IMPORTANT: Slides animate via inline styles set by goTo().
+   The .active class is the resting state; inline styles are
+   cleaned up after each transition completes.  Do NOT add
+   extra CSS classes (.exiting, .prev, etc.) for transitions —
+   the JS handles everything via inline style + cleanup.       */
 .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
     min-height: 100vh;
     min-height: 100dvh; /* Dynamic viewport for mobile */
     padding: var(--padding-slide);
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none;
     overflow-y: auto;
     overflow-x: hidden;
+}
+.slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: all;
+}
+/* Opt-in centering for title/stat slides */
+.slide.center {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .slide { transition: none; }
 }
 
 .section-label {
